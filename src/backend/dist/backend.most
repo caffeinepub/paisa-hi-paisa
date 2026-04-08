@@ -1,0 +1,107 @@
+// Version: 1.0.0
+type Coins__629831197 = Nat;
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DateKey__856556366 = Text;
+type EarningEvent__96422868 =
+  {
+    amount : Coins__629831197;
+    source : EarningSource__1016747288;
+    timestamp : Timestamp__301639476
+  };
+type EarningSource__1016747288 = {#checkin; #quiz; #spin};
+type INR__330704353 = Nat;
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type QuizQuestion__692474474 =
+  {
+    coinsReward : Coins__629831197;
+    correctIndex : Nat;
+    id : Nat;
+    options : [Text];
+    question : Text
+  };
+type SessionId__1052913375 = Text;
+type Timestamp__301639476 = Int;
+type UserCheckinState__918634515 =
+  {
+    var currentStreak : Nat;
+    var lastCheckinDate : DateKey__856556366;
+    sessionId : SessionId__1052913375;
+    var totalCheckins : Nat
+  };
+type UserQuizState__1003892371 =
+  {
+    var answeredToday : [Nat];
+    var lastQuizDate : DateKey__856556366;
+    sessionId : SessionId__1052913375;
+    var totalAnswered : Nat
+  };
+type UserSpinState__280504817 =
+  {
+    var dailySpinCount : Nat;
+    var lastSpinDate : DateKey__856556366;
+    sessionId : SessionId__1052913375;
+    var totalSpins : Nat
+  };
+type WithdrawalRequest__142145186 =
+  {
+    accountHolderName : Text;
+    bankAccountNumber : Text;
+    coinsRequested : Coins__629831197;
+    createdAt : Timestamp__301639476;
+    id : Nat;
+    ifscCode : Text;
+    inrAmount : INR__330704353;
+    sessionId : SessionId__1052913375;
+    var status : WithdrawalStatus__580664396
+  };
+type WithdrawalStatus__580664396 = {#pending; #processed; #rejected};
+actor {
+  stable allQuestions :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?QuizQuestion__692474474]];
+      var elementIndex : Nat__490723111
+    };
+  stable checkinStates :
+    {
+      var root :
+        Node__46230540<SessionId__1052913375, UserCheckinState__918634515>;
+      var size : Nat__490723111
+    };
+  stable coinBalances :
+    {
+      var root : Node__46230540<SessionId__1052913375, Coins__629831197>;
+      var size : Nat__490723111
+    };
+  stable earningHistory :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?EarningEvent__96422868]];
+      var elementIndex : Nat__490723111
+    };
+  stable quizStates :
+    {
+      var root :
+        Node__46230540<SessionId__1052913375, UserQuizState__1003892371>;
+      var size : Nat__490723111
+    };
+  stable spinStates :
+    {
+      var root :
+        Node__46230540<SessionId__1052913375, UserSpinState__280504817>;
+      var size : Nat__490723111
+    };
+  stable withdrawalRequests :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?WithdrawalRequest__142145186]];
+      var elementIndex : Nat__490723111
+    }
+};

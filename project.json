@@ -1,0 +1,21 @@
+{
+  "overview": "Paisa Hi Paisa is a fun coin-earning web app where you spin a wheel, answer quizzes, and do daily check-ins to earn coins — then cash them out via bank transfer.",
+  "features": [
+    "Spin Wheel — 70 daily spins, 50–100 coins each",
+    "Daily Quiz — new questions every day, 10–30 coins per correct answer",
+    "Daily Check-in — streak bonuses, 5–15 coins",
+    "Coin Dashboard — balance, earning history, and Paisa Hi Paisa branding",
+    "Withdrawal System — submit bank details (account number, IFSC, name), 100 coins = 10 INR"
+  ],
+  "category": "entertainment",
+  "tags": [
+    "coins",
+    "earning",
+    "spin-wheel",
+    "quiz",
+    "rewards",
+    "paisa",
+    "withdrawal"
+  ],
+  "last_updated": "2026-04-08T11:41:19.416Z"
+}

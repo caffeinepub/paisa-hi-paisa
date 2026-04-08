@@ -1,0 +1,81 @@
+type WithdrawalStatus = 
+ variant {
+   pending;
+   processed;
+   rejected;
+ };
+type WithdrawalResult = 
+ variant {
+   err: text;
+   ok: WithdrawalRequestPublic;
+ };
+type WithdrawalRequestPublic = 
+ record {
+   accountHolderName: text;
+   bankAccountNumber: text;
+   coinsRequested: Coins;
+   createdAt: Timestamp;
+   id: nat;
+   ifscCode: text;
+   inrAmount: INR;
+   sessionId: SessionId;
+   status: WithdrawalStatus;
+ };
+type WithdrawalInput = 
+ record {
+   accountHolderName: text;
+   bankAccountNumber: text;
+   coinsRequested: Coins;
+   ifscCode: text;
+ };
+type Timestamp = int;
+type SessionId = text;
+type QuizQuestion = 
+ record {
+   coinsReward: Coins;
+   correctIndex: nat;
+   id: nat;
+   options: vec text;
+   question: text;
+ };
+type INR = nat;
+type EarningSource = 
+ variant {
+   checkin;
+   quiz;
+   spin;
+ };
+type EarningEvent = 
+ record {
+   amount: Coins;
+   source: EarningSource;
+   timestamp: Timestamp;
+ };
+type DashboardStats = 
+ record {
+   checkinStreak: nat;
+   quizCount: nat;
+   recentHistory: vec EarningEvent;
+   spinCount: nat;
+   totalBalance: Coins;
+   totalEarned: Coins;
+ };
+type Coins = nat;
+service : {
+  doCheckin: (sessionId: SessionId) -> (opt Coins);
+  doSpin: (sessionId: SessionId) -> (opt Coins);
+  getCheckinStreak: (sessionId: SessionId) -> (nat) query;
+  getCoinBalance: (sessionId: SessionId) -> (Coins) query;
+  getDashboard: (sessionId: SessionId) -> (DashboardStats) query;
+  getSpinInfo: (sessionId: SessionId) -> (record {
+                                            max: nat;
+                                            used: nat;
+                                          }) query;
+  getTodayQuiz: (sessionId: SessionId) -> (vec QuizQuestion) query;
+  getWithdrawalHistory: (sessionId: SessionId) ->
+   (vec WithdrawalRequestPublic) query;
+  requestWithdrawal: (sessionId: SessionId, input: WithdrawalInput) ->
+   (WithdrawalResult);
+  submitQuizAnswer: (sessionId: SessionId, questionId: nat, selectedIndex:
+   nat) -> (opt Coins);
+}
